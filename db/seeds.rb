@@ -53,6 +53,7 @@ state_capitol_deck.cards << Card.create(question: "West Virginia", answer: "Char
 state_capitol_deck.cards << Card.create(question: "Wisconsin", answer: "Madison")
 state_capitol_deck.cards << Card.create(question: "Wyoming", answer: "Cheyenne")
 
+
 #Seed Users
 
 User.create(name: "Luis Perez", password: "pass", email: "lperez@email.com")

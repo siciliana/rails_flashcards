@@ -1,28 +1,31 @@
-class DecksController < ApplicationController
+class CardsController < ApplicationController
+  
   def index
     @decks = Deck.all
   end
 
   def show
-    @deck = Deck.find(params[:id])
+    @deck = Deck.find(params[:deck_id])
     @round = Round.create(deck_id: @deck.id)
-    @card_number = 1
-    @card = @deck.cards.find(@card_number)
-
-
-
-   
-    @card_number = (params[:card_id]).to_i
+    @card_number = (params[:id]).to_i
     @current_card = Card.find(@card_number)
+
+    @deck_length = @deck.cards.length
+    @correct_guess_count = @round.correct_guess_count
+  end 
+
+  def update
+
+    @deck = Deck.find(params[:deck_id])
+    @round = Round.create(deck_id: @deck.id)
+    @card_number = (params[:id]).to_i
+    @current_card = Card.find(@card_number)
+
     @deck_length = @deck.cards.length
     @correct_guess_count = @round.correct_guess_count
 
-    while @card_number < @deck_length
-      if @card_number > 1
-      @previous_card = Card.find(@card_number - 1)
-    end
 
-    @user_answer = params[:user_answer] 
+    @user_answer = params[:answer_input] 
 
     if @user_answer == @current_card.answer
       @correctness = true
@@ -34,7 +37,9 @@ class DecksController < ApplicationController
         round_id: @round.id, 
         correctness: @correctness
       )
-      @card_number += 1
+      if @card_number < @deck_length
+        @card_number += 1
+      end
       @card = Card.find(@card_number)
 
     else
@@ -46,14 +51,22 @@ class DecksController < ApplicationController
       card_id: @card_number, 
       round_id: @round.id, 
       )
-      @card_number += 1
-      @card = Card.find(@card_number)
 
+      if @card_number < @deck_length
+        @card_number += 1
+      end      
+      @card = Card.find(@card_number)  
+    end
       
+    if @card_number < @deck_length
+      redirect_to deck_card_path(@deck.id, @card.id)
+    else
+      redirect_to '/'
     end
   end
-  end
+end 
 
 
 
-end
+
+

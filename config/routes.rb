@@ -2,7 +2,17 @@ RailsFlashcards::Application.routes.draw do
   
   root to: "welcome#index"
 
-  resources :decks
+  resources :decks do
+    resources :cards
+  end
+
+  # deck_card_path(@deck, @deck.cards)
+
+  # get "/decks/:deck_id/cards/:id" => "whatever_controller#whatever_action", 
+  #    :as => :view_deck_card
+
+  # Use it in the view/controller like this:
+  # view_deck_card_url(deck.id, card.id) == "/decks/1/cards/2"
 end
 
 

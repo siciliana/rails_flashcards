@@ -1,0 +1,19 @@
+<div class='container'>
+
+  <h2><%= @deck.category %></h2>
+
+    <% if @card_number == 1 %>
+      <h3>Get playing!</h3>
+    <% end %>
+
+      <%= form_for @deck do |f| %>
+      <h3>What is the capital of <%= @deck.cards.find(@card_number).question %>?</h3>
+      <br><br> 
+      <%= f.submit %>
+      <% end %>
+
+
+    <%= link_to "Select Different Deck", controller: "decks" %>   
+    <br><br>
+ 
+</div>
